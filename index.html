@@ -116,15 +116,17 @@
                 };
             };
             function load(){
-                if(localStorage.time != 'null'){
+                if(localStorage.getItem("time")){
+                if(localStorage.getItem("time") != 'null'){
                 time = JSON.parse(localStorage.getItem('time'));
                 }
-                if(localStorage.settings != 'null'){
+                if(localStorage.getItem("settings") != 'null'){
                 settings = JSON.parse(localStorage.getItem('settings'));
                 }
-                if(localStorage.settings != 'null'){
+                if(localStorage.getItem("upgrades") != 'null'){
                 upgrades = JSON.parse(localStorage.getItem('upgrades'));    
                 };
+            }
             }
             function hardReset(){  
                 saveData = false;
@@ -133,7 +135,6 @@
                 location.reload()
             };
             $(function(){
-                preloads();
                 setInterval(showTime,0);
                 setInterval(passiveGain,100);
                 setInterval(save,60000);
@@ -219,7 +220,7 @@
             <p id="fadeAway1">You are gaining time. Spend it wisely</p>
         </div>
         <div id="settingsContainer">
-        <button class="settings" type="submit" style="border:0; background: transparent; right:10px">
+        <button class="settings" type="submit" style="border:0; background: transparent; float:right;">
             <img src="/images/gear.png">
         </button>
         </div>
