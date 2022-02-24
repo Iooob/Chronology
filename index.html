@@ -76,6 +76,12 @@
                 for(var addTime = 0; addTime < time.gainTime; addTime++){
                     time.seconds.amount += 0.1;
                 }
+                while(time.seconds.amount / 60 > 1){
+                    for(var secToMin = 0; secToMin <= (times.seconds / 60); secToMin++){
+                        time.seconds.amount -= 60
+                        time.minutes.amount++;
+                    }
+                }
             }
             function preloads(){
                 $("#up1").hide();
@@ -138,7 +144,7 @@
                 setInterval(showTime,0);
                 setInterval(passiveGain,100);
                 setInterval(save,60000);
-                $("#fadeAway1").fadeOut(5000, function(){
+                $("#fadeAway1").fadeOut(5000, function(){r5
                     settings.textFaded = true;
                 });
                 showTooltips();
@@ -151,6 +157,7 @@
                         settings.showTimeList = false;
                     }
                     });
+                $("")
                     });
             });
         </script>
@@ -239,7 +246,7 @@
                         </div>
         </div>
         <div id="upgrades">
-            <button class="tooltip" id="upButton1">Speed up time</button>
+            <button class="tooltip upgrade" id="upButton1">Speed up time</button>
             <p class="tooltiptext" id="up1"></p>
                     <div id="settings">
         </div>
