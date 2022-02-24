@@ -77,7 +77,7 @@
                     time.seconds.amount += 0.1;
                 }
                 while(time.seconds.amount / 60 > 1){
-                    for(var secToMin = 0; secToMin <= (times.seconds / 60); secToMin++){
+                    for(var secToMin = 0; secToMin <= (time.seconds.amount / 60); secToMin++){
                         time.seconds.amount -= 60
                         time.minutes.amount++;
                     }
@@ -103,7 +103,7 @@
             }
             function showhideUpgrades(){
                 if(upgrades.main.speedUpTime1.bought == false){
-                    if(time.seconds >= 10){
+                    if(time.seconds.amount >= 10){
                         $("#upButton1").show();
                 }else{
                     $("#upButton1").hide()
