@@ -65,10 +65,10 @@
                     }
                 }
                 if(time.breakDown.seconds / 604800 > 1){
-                    while(time.breakDown.seconds / 604800 > 1)
+                    while(time.breakDown.seconds / 604800 > 1){
                         time.breakDown.weeks /= 604800;
                         time.breakDown.seconds %= 604800;
-                }
+                    }
                 }
                 if(time.breakDown.seconds / 86400 > 1){
                     while(time.breakDown.seconds / 86400 > 1){
