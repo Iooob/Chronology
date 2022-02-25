@@ -53,28 +53,40 @@
             function showTime(){
                 time.breakDown.seconds = time.seconds.amount;
                 if(time.breakDown.seconds / 3.154e+7 > 1){
-                time.breakDown.years /= 3.154e+7;
-                time.breakDown %= 3.154e+7;
+                    while(time.breakDown.seconds / 3.154e+7 > 1){
+                        time.breakDown.years /= 3.154e+7;
+                        time.breakDown.seconds %= 3.154e+7;
+                    }
                 }
                 if(time.breakDown.seconds / 2.628e+6	> 1){
-                    time.breakDown.months /= 2.628e+6;
-                    time.breakDown %= 2.628e+6;
+                    while(time.breakDown.seconds / 2.628e+6	> 1){
+                        time.breakDown.months /= 2.628e+6;
+                        time.breakDown.seconds %= 2.628e+6;
+                    }
                 }
                 if(time.breakDown.seconds / 604800 > 1){
-                    time.breakDown.weeks /= 604800;
-                    time.breakDown %= 604800;
+                    while(time.breakDown.seconds / 604800 > 1)
+                        time.breakDown.weeks /= 604800;
+                        time.breakDown.seconds %= 604800;
+                }
                 }
                 if(time.breakDown.seconds / 86400 > 1){
-                    time.breakDown.days /= 86400;
-                    time.breakDown %= 86400;
+                    while(time.breakDown.seconds / 86400 > 1){
+                        time.breakDown.days /= 86400;
+                        time.breakDown .seconds%= 86400;
+                    }
                 }
                 if(time.breakDown.seconds / 3600 > 1){
-                    time.breakDown.hours /= 3600;
-                    time.breakDown %= 3600;
+                    while(time.breakDown.seconds / 3600 > 1){
+                        time.breakDown.hours /= 3600;
+                        time.breakDown.seconds %= 3600;
+                    }
                 }
                 if(time.breakDown.seconds / 60 > 1){
-                    time.breakDown.minutes /= 60;
-                    time.breakDown %= 60;
+                    (time.breakDown.seconds / 60 > 1){
+                        time.breakDown.minutes /= 60;
+                        time.breakDown.seconds %= 60;
+                    }
                 }
                 document.title = time.seconds.amount.toFixed(0) + " Seconds";
                 document.getElementById("tsSec").textContent = time.breakDown.seconds;
