@@ -48,7 +48,7 @@
             });
             sessionStorage.setItem('loadData', 'true');
             function showTime(){
-                time.breakDown = time.seconds.amount;
+                time.breakDown.seconds = time.seconds.amount;
                 if(time.breakDown.seconds / 3.154e+7 > 1){
                 time.breakDown.years /= 3.154e+7;
                 time.breakDown %= 3.154e+7;
