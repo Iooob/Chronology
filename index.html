@@ -6,7 +6,8 @@
     <body onbeforeunload="save()">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
         <script>
-            var saveData = true;
+            $(function(){
+                var saveData = true;
             var settings = {
                 textFaded: false,
                 showTimeList: true,
@@ -21,17 +22,7 @@
                   },
               },
             };
-            $(function(){
-                if(sessionStorage.getItem('loadData') == 'true'){
-                    if(localStorage != 'null'){
-                        load();
-                        preloads();
-
-                    }
-                }
-            });
-            sessionStorage.setItem('loadData', 'true');
-            var time = {
+                var time = {
                 gainTime: 1,
                 seconds: {
                     amount: 0,
@@ -47,6 +38,15 @@
                     years: 0
                 }
             }
+                if(sessionStorage.getItem('loadData') == 'true'){
+                    if(localStorage != 'null'){
+                        load();
+                        preloads();
+
+                    }
+                }
+            });
+            sessionStorage.setItem('loadData', 'true');
             function showTime(){
                 time.breakDown = time.seconds.amount;
                 if(time.breakDown.seconds / 3.154e+7 > 1){
