@@ -35,52 +35,56 @@
                 gainTime: 1,
                 seconds: {
                     amount: 0,
-                    achieved: true
                 },
-                minutes: {
-                    amount: 0,
-                    achieved: false
-                },
-                hours: {
-                    amount: 0,
-                    achieved: false
-                },
-                days: {
-                    amount: 0,
-                    achieved: false
-                },
-                weeks: {
-                    amount: 0,
-                    achieved: false
-                },
-                months: {
-                    amount: 0,
-                    achieved: false
-                },
-                years: {
-                    amount: 0,
-                    achieved: false
+                showTime: 0,
+                breakDown: {
+                    seconds: 0,
+                    minutes: 0,
+                    hours: 0,
+                    days: 0,
+                    weeks: 0,
+                    months: 0,
+                    years: 0
                 }
             }
             function showTime(){
+                time.showTime = time.seconds.amount;
+                if(time.breakDown.seconds / 3.154e+7 > 1){
+                time.breakDown.years /= 3.154e+7;
+                time.showTime %= 3.154e+7;
+                }
+                if(time.breakDown.seconds / 2.628e+6	> 1){
+                    time.breakDown.months /= 2.628e+6;
+                    time.showTime %= 2.628e+6;
+                }
+                if(time.breakDown.seconds / 604800 > 1){
+                    time.breakDown.weeks /= 604800;
+                    time.showTime %= 604800;
+                }
+                if(time.breakDown.seconds / 86400 > 1){
+                    time.breakDown.days /= 86400;
+                    time.showTime %= 86400;
+                }
+                if(time.breakDown.seconds / 3600 > 1){
+                    time.breakDown.hours /= 3600;
+                    time.showTime %= 3600;
+                }
+                if(time.breakDown.seconds / 60 > 1){
+                    time.breakDown.minutes /= 60;
+                    time.showTime %= 60;
+                }
                 document.title = time.seconds.amount.toFixed(0) + " Seconds";
-                document.getElementById("tsSec").textContent = time.seconds.amount.toFixed(2);
-                document.getElementById("tsMin").textContent = time.minutes.amount;
-                document.getElementById("tsHour").textContent = time.hours.amount;
-                document.getElementById("tsDay").textContent = time.days.amount;
-                document.getElementById("tsWeek").textContent = time.weeks.amount;
-                document.getElementById("tsMonth").textContent = time.months.amount;
-                document.getElementById("tsYear").textContent = time.years.amount;
+                document.getElementById("tsSec").textContent = time.breakDown.seconds;
+                document.getElementById("tsMin").textContent = time.breakDown.minutes;
+                document.getElementById("tsHour").textContent = time.breakDown.hours;
+                document.getElementById("tsDay").textContent = time.breakDown.days;
+                document.getElementById("tsWeek").textContent = time.breakDown.weeks;
+                document.getElementById("tsMonth").textContent = time.breakDown.months;
+                document.getElementById("tsYear").textContent = time.breakDown.years;
             }
             function passiveGain(){
                 for(var addTime = 0; addTime < time.gainTime; addTime++){
                     time.seconds.amount += 0.1;
-                }
-                while(time.seconds.amount / 60 > 1){
-                    for(var secToMin = 0; secToMin <= (time.seconds.amount / 60); secToMin++){
-                        time.seconds.amount -= 60
-                        time.minutes.amount++;
-                    }
                 }
             }
             function preloads(){
