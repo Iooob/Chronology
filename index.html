@@ -7,15 +7,11 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
         <script>
             var saveData = true;
-            var settings;
-            var upgrades;
-            var time;
-            $(function(){
-            settings = {
+            var settings = {
                 textFaded: false,
                 showTimeList: true,
             }
-            upgrades = {
+            var upgrades = {
               main: {
                   speedUpTime1: {
                     effect: "Doubles the amount of seconds you gain per second.",
@@ -25,7 +21,7 @@
                   },
               },
             };
-                time = {
+            var time = {
                 gainTime: 1,
                 seconds: {
                     amount: 0,
@@ -41,6 +37,7 @@
                     years: 0
                 }
             }
+            $(function(){
                 if(sessionStorage.getItem('loadData') == 'true'){
                     if(localStorage != 'null'){
                         load();
@@ -50,62 +47,80 @@
                 }
             });
             sessionStorage.setItem('loadData', 'true');
+            function calcTime(){
+                if(time.breakDown.seconds != time.seconds.amount){
+                    time.breakDown.seconds = time.seconds.amount;
+                    if(time.breakDown.seconds / 3.154e+7 > 1){
+                        while(time.breakDown.seconds / 3.154e+7 > 1){
+                            time.breakDown.years = Math.floor(time.breakDown.seconds / 3.154e+7);
+                            time.breakDown.seconds %= 3.154e+7;
+                            time.breakDown.months = 0;
+                            time.breakDown.weeks = 0;
+                        }
+                    }
+                    if(time.breakDown.seconds / 2.628e+6	> 1){
+                        while(time.breakDown.seconds / 2.628e+6	> 1){
+                            time.breakDown.months = Math.floor(time.breakDown.seconds / 2.628e+6);
+                            time.breakDown.seconds %= 2.628e+6;
+                            time.breakDown.weeks = 0
+                            time.breakDown.days = 0;
+                        }
+                    }
+                    if(time.breakDown.seconds / 604800 > 1){
+                        while(time.breakDown.seconds / 604800 > 1){
+                            time.breakDown.weeks = Math.floor(time.breakDown.seconds / 604800);
+                            time.breakDown.seconds %= 604800;
+                            time.breakDown.days = 0;
+                        }
+                    }
+                    if(time.breakDown.seconds / 86400 > 1){
+                        while(time.breakDown.seconds / 86400 > 1){
+                            time.breakDown.days = Math.floor(time.breakDown.seconds / 86400);
+                            time.breakDown .seconds%= 86400;
+                            time.breakDown.hours = 0;
+                        }
+                    }
+                    if(time.breakDown.seconds / 3600 > 1){
+                        while(time.breakDown.seconds / 3600 > 1){
+                            time.breakDown.hours = Math.floor(time.breakDown.seconds / 3600);
+                            time.breakDown.seconds %= 3600;
+                            time.breakDown.minutes = 0;
+                        }
+                    }
+                    if(time.breakDown.seconds / 60 > 1){
+                        while(time.breakDown.seconds / 60 > 1){
+                            time.breakDown.minutes = Math.floor(time.breakDown.seconds / 60);
+                            time.breakDown.seconds %= 60;
+                        }
+                    }
+                }
+            }
             function showTime(){
-                time.breakDown.seconds = time.seconds.amount;
-                if(time.breakDown.seconds / 3.154e+7 > 1){
-                    while(time.breakDown.seconds / 3.154e+7 > 1){
-                        time.breakDown.years /= 3.154e+7;
-                        time.breakDown.seconds %= 3.154e+7;
-                    }
-                }
-                if(time.breakDown.seconds / 2.628e+6	> 1){
-                    while(time.breakDown.seconds / 2.628e+6	> 1){
-                        time.breakDown.months /= 2.628e+6;
-                        time.breakDown.seconds %= 2.628e+6;
-                    }
-                }
-                if(time.breakDown.seconds / 604800 > 1){
-                    while(time.breakDown.seconds / 604800 > 1){
-                        time.breakDown.weeks /= 604800;
-                        time.breakDown.seconds %= 604800;
-                    }
-                }
-                if(time.breakDown.seconds / 86400 > 1){
-                    while(time.breakDown.seconds / 86400 > 1){
-                        time.breakDown.days /= 86400;
-                        time.breakDown .seconds%= 86400;
-                    }
-                }
-                if(time.breakDown.seconds / 3600 > 1){
-                    while(time.breakDown.seconds / 3600 > 1){
-                        time.breakDown.hours /= 3600;
-                        time.breakDown.seconds %= 3600;
-                    }
-                }
-                if(time.breakDown.seconds / 60 > 1){
-                    while(time.breakDown.seconds / 60 > 1){
-                        time.breakDown.minutes /= 60;
-                        time.breakDown.seconds %= 60;
-                    }
-                }
+                calcTime();
                 document.title = time.seconds.amount.toFixed(0) + " Seconds";
-                document.getElementById("tsSec").textContent = time.breakDown.seconds;
+                document.getElementById("tsSec").textContent = time.breakDown.seconds.toFixed(2);
                 document.getElementById("tsMin").textContent = time.breakDown.minutes;
                 document.getElementById("tsHour").textContent = time.breakDown.hours;
                 document.getElementById("tsDay").textContent = time.breakDown.days;
                 document.getElementById("tsWeek").textContent = time.breakDown.weeks;
                 document.getElementById("tsMonth").textContent = time.breakDown.months;
                 document.getElementById("tsYear").textContent = time.breakDown.years;
+                document.getElementById("tsTotalSec").textContent = Math.floor(time.seconds.amount);
             }
             function passiveGain(){
+                if(time.gainTime < 1000){
                 for(var addTime = 0; addTime < time.gainTime; addTime++){
                     time.seconds.amount += 0.1;
                 }
+                }else if(time.gainTime >= 1000){
+                    time.seconds.amount += time.gainTime;
+                }
             }
             function preloads(){
-                $("#up1").hide();
+                $("#up1").hide();0
                 if(settings.showTimeList == false){
                 $("#timeContainer").hide();
+                $("#totalSec").hide();
                 }
                 if(settings.textFaded == true){
                     $("#fadeAway1").hide()
@@ -123,12 +138,12 @@
             function showhideUpgrades(){
                 if(upgrades.main.speedUpTime1.bought == false){
                     if(time.seconds.amount >= 10){
-                        $("#upButton1").show();
+                        $("#upButton1").slideDown(500);
                 }else{
-                    $("#upButton1").hide()
+                    $("#upButton1").slideUp(0);
                 }
                     }else{
-                        $("#upButton1").hide()
+                        $("#upButton1").slideUp(0);
                     }
                 };
             function save(){
@@ -142,16 +157,14 @@
             };
             function load(){
                 if(localStorage.getItem("time")){
-                if(localStorage.getItem("time") != 'null'){
                 time = JSON.parse(localStorage.getItem('time'));
                 }
-                if(localStorage.getItem("settings") != 'null'){
+                if(localStorage.getItem("settings")){
                 settings = JSON.parse(localStorage.getItem('settings'));
                 }
-                if(localStorage.getItem("upgrades") != 'null'){
+                if(localStorage.getItem("upgrades")){
                 upgrades = JSON.parse(localStorage.getItem('upgrades'));    
                 };
-            }
             }
             function hardReset(){  
                 saveData = false;
@@ -159,16 +172,29 @@
                 sessionStorage.setItem('loadData','false');
                 location.reload()
             };
+            function buyUpgrades(){
+                $("#upButton1").click(function(){
+                    if(upgrades.main.speedUpTime1.bought == false){
+                        if(time.seconds.amount >= 10){
+                            time.seconds.amount -= 10;
+                            upgrades.main.speedUpTime1.bought = true;
+                            time.gainTime *= 2;
+                        }
+                    }
+                })
+            };
             $(function(){
                 setInterval(showTime,0);
                 setInterval(passiveGain,100);
                 setInterval(save,60000);
+                setInterval(showhideUpgrades,0);
                 $("#fadeAway1").fadeOut(5000, function(){
                     settings.textFaded = true;
                 });
                 showTooltips();
+                buyUpgrades();
                 $("#timeButton").click(function(){
-                    $("#timeContainer").toggle(500, function(){
+                    $("#timeContainer").slideToggle(500, function(){
                         if(settings.showTimeList == false){
                         settings.showTimeList = true;
                             }
@@ -176,9 +202,10 @@
                         settings.showTimeList = false;
                     }
                     });
-                $("")
+                    $("#totalSec").slideToggle(500);
                     });
             });
+
         </script>
         <style>
             body {
@@ -214,7 +241,6 @@
             }
             #showTime {
                 padding-left: 2.5%;
-                padding-top: 5%;
             }
             #timeButton {
                 background-color: #23363A;
@@ -227,11 +253,30 @@
             }
             #timeContainer {
                 background-color: #152124;
-                margin-right: 90%;
+                margin-right: 80%;
                 color: #a1b7dd;
                 border-style: inset;
                 border-color: #152132;
+                padding-bottom: 0%;
             };
+            #totalSecContainer {
+                margin-right: 80%;
+                color: #a1b7dd;
+                border-style: outset;
+            }
+            #totalSec {
+                padding-top: 15px;
+                margin-right: 80%;
+                height: 50px;
+                color: #a1b7dd;
+                border-style: outset;
+                background-color: #152124;
+                border-color: #1a2a3f;
+                box-sizing: border-box;
+            }
+            #tsTotalSec {
+                padding-left: 40px;
+            }
             .timeSlider {
                 display: inline-block;
             }
@@ -245,30 +290,31 @@
         <div id="infotext1">
             <p id="fadeAway1">You are gaining time. Spend it wisely</p>
         </div>
-        <div id="settingsContainer">
-        <button class="settings" type="submit" style="border:0; background: transparent; float:right;">
-            <img src="/images/gear.png">
-        </button>
-        </div>
+            <button class="settings" type="submit" style="border:0; background: transparent; right:10px">
+                <img src="/images/gear.png">
+            </button>
         <div id="showTime">
             <button id="timeButton">Show Time</button>
                 <div id="timeContainer">
                     <ul id="timeList">
-                        <li class="timeSlider" id="seconds"> <span id="tsSec"></span> Seconds</li>
-                        <li class="timeSlider" id="minutes"> <span id="tsMin"></span> Minutes</li>
-                        <li class="timeSlider" id="hours"> <span id="tsHour"></span> Hours</li>
-                        <li class="timeSlider" id="days"> <span id="tsDay"></span> Days</li>
-                        <li class="timeSlider" id="weeks"> <span id="tsWeek"></span> Weeks</li>
-                        <li class="timeSlider" id="months"> <span id="tsMonth"></span> Months</li>
-                        <li class="timeSlider" id="years"> <span id="tsYear"></span> Years</li>
+                        <li class="timeSlider" id="seconds"> <span id="tsSec"></span> Seconds </li> <br>
+                        <li class="timeSlider" id="minutes"> <span id="tsMin"></span> Minutes</li> <br>
+                        <li class="timeSlider" id="hours"> <span id="tsHour"></span> Hours</li> <br>
+                        <li class="timeSlider" id="days"> <span id="tsDay"></span> Days</li> <br>
+                        <li class="timeSlider" id="weeks"> <span id="tsWeek"></span> Weeks</li> <br>
+                        <li class="timeSlider" id="months"> <span id="tsMonth"></span> Months</li> <br>
+                        <li class="timeSlider" id="years"> <span id="tsYear"></span> Years</li> <br>
                     </ul>
-                        </div>
+        </div>
+        <div id="totalSecContainer">
+            <p id="totalSec"><span id="tsTotalSec"></span> <span id="totalSecText"> Seconds</span></p>
+        </div>
         </div>
         <div id="upgrades">
-            <button class="tooltip upgrade" id="upButton1">Speed up time</button>
+            <button class="tooltip upgrade" id="upButton1" type="input">Speed up time</button>
             <p class="tooltiptext" id="up1"></p>
-                    <div id="settings">
-        </div>
         </div>
     </body>
 </html>
+<!-- Cast your card! -->
+<!--Comment! -->
