@@ -198,6 +198,7 @@
                             progression.time.seconds.amount -= 10;
                             progression.upgrades.main.speedUpTime1.bought = true;
                             progression.time.gainTime *= 2;
+                            sendEvents("You feel everything around you become faster")
                         }
                     }
                 })
@@ -231,25 +232,28 @@
                     hardReset();
                 })
             };
-            $(function(){
-                $("#settingsMenu").hide()
-                setInterval(showTime,0);
-                setInterval(passiveGain,100);
-                setInterval(save,60000);
-                setInterval(showhideUpgrades,0);
-                showTooltips();
-                buyUpgrades();
-                pressSettings();
-                if(sessionStorage.getItem('emergencySave') != 'null' || sessionStorage.getItem('emergencySave' != null)){
-                    alert("You have reset your data! An export code has been generated in case you regret your decision \nThis can be accessed from the javascript console Ctrl + Shift + I and its been put in the import/export box")
+            function alertReset(){
+                if(sessionStorage.getItem('emergencySave') != null){
+                    sendEvents("You have reset your data! An export code has been generated in case you regret your decision \nThis can be accessed from the javascript console Ctrl + Shift + I and its been put in the import/export box")
                     console.log(sessionStorage.getItem('emergencySave'))
-                    document.getElementById("saveText").value = btoa(sessionStorage.getItem('emergencySave'))
-                    sessionStorage.emergencySave = 'null'
-
+                    document.getElementById("saveText").value = sessionStorage.getItem('emergencySave')
+                    sessionStorage.removeItem('emergencySave');
                 }
+            }
+            function sendEvents(message){
+                let logger = document.getElementById("events")
+                let container = document.getElementById("showEvents")
+                logger.innerHTML += message + "<br>"
+                $('#showEvents').animate({
+                     scrollTop: container.scrollHeight - container.clientHeight
+                }, 10);
+            }
+            function fadeStartingText(){
                 $("#fadeAway1").fadeOut(5000, function(){
                     settings.textFaded = true;
                 });
+            }
+            function timeListToggle(){
                 $("#timeButton").click(function(){
                     $("#timeContainer").slideToggle(500, function(){
                         if(settings.showTimeList == false){
@@ -261,6 +265,20 @@
                     });
                     $("#totalSec").slideToggle(500);
                     });
+            }
+            $(function(){
+                $("#settingsMenu").hide()
+                sendEvents("Reality resumes")
+                setInterval(showTime,0);
+                setInterval(passiveGain,100);
+                setInterval(save,60000);
+                setInterval(showhideUpgrades,0);
+                showTooltips();
+                buyUpgrades();
+                pressSettings();
+                alertReset();
+                fadeStartingText();
+                timeListToggle();
             });
 
         </script>
@@ -440,6 +458,10 @@
             </div>
             </div>
         </div>
+            <!--Tell events-->
+            <div class="input" id="showEvents" style="position:fixed; width: 20%; height: 35%; top: 5%; right: 50%; overflow-y: scroll; margin: 30px auto; z-index: -5">
+                <div id="events" style="bottom: 10px; left: 0; vertical-align: bottom;"></div>
+            </div>
         <!--Show how much time has been gained-->
         <div id="showTime">
             <button class="button" id="timeButton">Show Time</button>
@@ -469,3 +491,4 @@
 <!--Comment! -->
 <!--What if I put a comment here for every update I do? How many lines would there be?-->
 <!--Setings and import/export saves -->
+<!--Event Logger! 3/4/22-->
