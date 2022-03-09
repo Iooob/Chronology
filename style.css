@@ -1,0 +1,139 @@
+body {
+    background-color: #101A1C;
+}
+* {
+    z-index: 1;
+}
+#infotext1 {
+  padding-left: 40%;
+  color: white;
+}
+#upgrades {
+    padding-left: 2.5%;
+    padding-top: 5%;
+}
+.tooltiptext {
+    color: #a1b7dd;
+    position: absolute;
+}
+#fadeAway1 {
+    position: absolute;
+    z-index: -1;
+}
+#showTime {
+    padding-left: 2.5%;
+}
+.button {
+    background-color: #23363A;
+    color: white;
+    border: outset;
+    border-color: #1a2a3f;
+    padding: 16px 16px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+#timeContainer {
+    background-color: #152124;
+    margin-right: 80%;
+    color: #a1b7dd;
+    border-style: inset;
+    border-color: #152132;
+    padding-bottom: 0%;
+};
+#totalSecContainer {
+    margin-right: 80%;
+    color: #a1b7dd;
+    border-style: outset;
+}
+#totalSec {
+    padding-top: 15px;
+    margin-right: 80%;
+    height: 50px;
+    color: #a1b7dd;
+    border-style: outset;
+    background-color: #152124;
+    border-color: #1a2a3f;
+    box-sizing: border-box;
+}
+#tsTotalSec {
+    padding-left: 40px;
+}
+.timeSlider {
+    display: inline-block;
+}
+#timeList {
+    list-style: none;
+};
+#settingsMenu{
+    z-index: 69;
+}
+#settingsMenu #settingsContainer {
+    color: #a1b7dd;
+    position: absolute;
+    height: 90%;
+    color: #a1b7dd;
+    border-style: outset;
+    width: 98%;
+    background-color: #152124;
+    border-color: #1a2a3f;
+    box-sizing: border-box;
+}
+.settingsContent {
+    position: relative;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+#creditsButton {
+    position: absolute;
+    bottom: 2.5%;
+    left: 0%;
+    text-align: center;
+}
+
+#closeSettings:hover, #settingsButton:hover, .button:hover{
+    opacity: 0.6;
+}
+#creditsContainer{
+    z-index: 293485;
+    visibility: hidden;
+    position: absolute;
+    top: -2%;
+    left: 25%;
+    color: #a1b7dd;
+    height: 101%;
+    border-style: outset;
+    width: 40%;
+    background-color: #152124;
+    border-color: #1a2a3f;
+    box-sizing: border-box;
+}
+#creditsContainer a {
+    color: #a1b7dd;
+}
+#creditsContainer p, a {
+    padding-left: 25px;
+}
+#creditsContainer h1, h2, h3, h4, h5{
+    text-align: center;
+}
+.input {
+    color: #a1b7dd;
+    background-color: #152124;
+    border: inset;
+    border-color: #1a2a3f
+}
+#saveText{
+    display: inline-block;
+    line-height: 120%;
+}
+#hardReset {
+    position: absolute;
+    bottom: 2.5%;
+    left: 7.5%;
+}
+#resetWarning {
+    visibility: hidden;
+    bottom: -50%;
+    left: 1.5%;
+}
