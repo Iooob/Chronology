@@ -2,7 +2,11 @@ var saveData = true;
 var settings = {
     textFaded: false,
     showTimeList: true,
+    toggleEvents: "On",
+    windowVisible: true,
+    chocolate: "Chips!",
 }
+var mirror;
 var progression = {
     confirmValidCode: true,
     upgrades: {
@@ -115,6 +119,7 @@ function passiveGain(){
 }
 function preloads(){
     $("#up1").hide();0
+    document.getElementById("toggleEventsShow").textContent = settings.toggleEvents
     if(settings.showTimeList == false){
     $("#timeContainer").hide();
     $("#totalSec").hide();
@@ -167,16 +172,26 @@ function importSave(save){
     }
 }
 function load(){
+    mirror = progression + settings;
     if(localStorage.getItem("time")){
-    progression.time = JSON.parse(localStorage.getItem('time'));
+            progression.time = JSON.parse(localStorage.getItem('time'));
+        }
     }
     if(localStorage.getItem("settings")){
-    settings = JSON.parse(localStorage.getItem('settings'));
+            for(const key in settings){
+                if(JSON.parse(localStorage.getItem('settings')).hasOwnProperty(key) == true){
+                settings.key = JSON.parse(localStorage.getItem('settings')).key;
+                }
+            }
     }
     if(localStorage.getItem("upgrades")){
-    progression.upgrades = JSON.parse(localStorage.getItem('upgrades'));    
-    };
+        for(const key in progression.upgrades){
+            if(JSON.parse(localStorage.getItem('upgrades')).hasOwnProperty(key) == true){
+                    progression.upgrades = JSON.parse(localStorage.getItem('upgrades'));
+    }
+  }
 }
+
 function hardReset(){  
     saveData = false;
     localStorage.clear();
@@ -225,6 +240,17 @@ function pressSettings(){
     $("#hardReset").click(function(){
         hardReset();
     })
+    //Toggle Events
+    $("#toggleEvents").click(function(){
+        console.log("Bones")
+        if(settings.toggleEvents == "On"){
+            settings.toggleEvents = "Off"
+        }else{
+            settings.toggleEvents = "On"
+        }
+        document.getElementById("toggleEventsShow").textContent = settings.toggleEvents
+    })
+
 };
 function alertReset(){
     if(sessionStorage.getItem('emergencySave') != null){
@@ -260,17 +286,56 @@ function timeListToggle(){
         $("#totalSec").slideToggle(500);
         });
 }
-$(function(){
-    $("#settingsMenu").hide()
-    sendEvents("Reality resumes")
+
+function offlineProgress(){
+    let date = new Date();
+    let addTime = (date.getTime() - Number(localStorage.getItem('leaveDate'))) / 1000
+    progression.time.seconds.amount += addTime;
+    sendEvents(addTime + " Seconds earned while you were gone.");
+}
+function closeEvents(){
+    if(settings.toggleEvents == "On"){
+        $("#showEvents").show()
+    }else{
+        $("#showEvents").hide()
+    }
+}
+function constantFunctions(){
     setInterval(showTime,0);
     setInterval(passiveGain,100);
     setInterval(save,60000);
-    setInterval(showhideUpgrades,0);
+    setInterval(showhideUpgrades,0)
+    setInterval(closeEvents, 0)
+};
+
+$(function(){
+    $("#settingsMenu").hide()
+    sendEvents("Reality resumes")
+    if(settings.windowVisible == true){
+    offlineProgress();
+    constantFunctions();
     showTooltips();
     buyUpgrades();
     pressSettings();
     alertReset();
     fadeStartingText();
     timeListToggle();
+    }else if(settings.windowVisible == false){
+        console.log("Placeholder!")
+    }else{
+        settings.windowVisible == true
+    }
+});
+document.addEventListener('visibilitychange', function(event){
+    let date = new Date()
+    if(document.hidden){
+        settings.windowVisible = false;
+        localStorage.setItem('leaveDate', date.getTime());
+        console.log(localStorage.getItem('leaveDate')); 
+    }else{
+        settings.windowVisible = true;
+        sendEvents((date.getTime() - localStorage.getItem('leaveDate')) / 1000)
+        progression.time.seconds.amount += (date.getTime() - localStorage.getItem('leaveDate')) / 1000
+
+    }
 });
